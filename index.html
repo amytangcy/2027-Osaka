@@ -530,7 +530,6 @@ function chip(k, txt){
   const m = MODE[k];
   return `<span class="ic ${m[0]}${txt?'':' noTxt'}" role="img" aria-label="${m[2]}${txt?' '+txt:''}" title="${m[2]}"><svg aria-hidden="true"><use href="#${m[1]}"/></svg>${txt||''}</span>`;
 }
-$('#legend').innerHTML = Object.keys(MODE).map(k=>`<span class="ic ${MODE[k][0]}"><svg aria-hidden="true"><use href="#${MODE[k][1]}"/></svg>${MODE[k][2]}</span>`).join('');
 /* ---------- ledger state ---------- */
 const CATS=[['food','餐飲'],['trans','交通'],['shop','購物・福袋'],['gift','伴手禮'],['ticket','門票・娛樂'],['hotel','住宿'],['other','其他']];
 const CBG=['var(--coral)','var(--yellow)','var(--aqua)','var(--green)'];
