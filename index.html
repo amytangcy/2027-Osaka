@@ -55,28 +55,9 @@ h2 svg{width:38px;height:38px;flex:none}
 #cdnote{font-size:14px;margin-top:10px}
 
 /* day tabs */
-.tabs{
-  display:flex;
-  gap:8px;
-  overflow-x:hidden;
-  justify-content:center;
-  padding:4px 2px 12px;
-  scrollbar-width:none
-}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{
-  flex:none;
-  font:inherit;
-  color:var(--ink);
-  background:var(--paper);
-  border:var(--line);
-  border-radius:20px;
-  padding:7px 16px;
-  text-align:center;
-  cursor:pointer;
-  line-height:1.3;
-  min-width:72px
-}
+.tab{flex:none;font:inherit;color:var(--ink);background:var(--paper);border:var(--line);border-radius:20px;padding:4px 12px;text-align:center;cursor:pointer;line-height:1.3;min-width:62px}
 .tab small{display:block;font-size:12px}
 .tab b{font-weight:400;font-size:18px}
 .tab[aria-selected="true"]{background:var(--coral)}
@@ -322,6 +303,7 @@ footer svg{width:130px;margin:0 auto 6px}
 <section id="itinerary">
   <h2><svg><use href="#i-train"/></svg>每日行程</h2>
   <div class="tabs" role="tablist" id="tabs" aria-label="選擇日期"></div>
+  <div class="legend" id="legend" aria-label="交通圖例"></div>
   <div id="panel" role="tabpanel"></div>
   <div id="backup"></div>
 </section>
@@ -611,9 +593,9 @@ const BACKUP = [
 ];
 function renderBackup(){
   const el = $('#backup');
-  el.innerHTML = '<h3 class="sub-t" ="margin-top:22px">後備景點</h3>' + BACKUP.map((b,bi)=>{
+  el.innerHTML = '<h3 class="sub-t" style="margin-top:22px">後備景點</h3>' + BACKUP.map((b,bi)=>{
     const web = gs(b.m + ' 公式');
-    return `<div class="card"><h4 ="font-size:18px;font-weight:400">${esc(b.h)}</h4>${b.day?`<span class="tag t-sug">${esc(b.day)}</span>`:''}<p ="font-size:14px;margin-top:6px">${esc(b.i)}</p><div class="mv" style="margin-top:8px">${b.mv.map(([k,t])=>chip(k,t)).join('')}</div><dl class="kv small"><dt>營業</dt><dd>${esc(b.o)}</dd></dl><div class="btns"><a class="mini b-map" target="_blank" rel="noopener" href="${gm(b.m)}">Google Map</a><a class="mini b-web" target="_blank" rel="noopener" href="${web}">官網／預約</a>${accBtn(5,'b'+bi)}</div></div>`;
+    return `<div class="card"><h4 style="font-size:18px;font-weight:400">${esc(b.h)}</h4>${b.day?`<span class="tag t-sug">${esc(b.day)}</span>`:''}<p style="font-size:14px;margin-top:6px">${esc(b.i)}</p><div class="mv" style="margin-top:8px">${b.mv.map(([k,t])=>chip(k,t)).join('')}</div><dl class="kv small"><dt>營業</dt><dd>${esc(b.o)}</dd></dl><div class="btns"><a class="mini b-map" target="_blank" rel="noopener" href="${gm(b.m)}">Google Map</a><a class="mini b-web" target="_blank" rel="noopener" href="${web}">官網／預約</a>${accBtn(5,'b'+bi)}</div></div>`;
   }).join('');
 }
 renderBackup();
