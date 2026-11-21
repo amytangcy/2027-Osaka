@@ -130,6 +130,56 @@ h2 svg{width:38px;height:38px;flex:none}
 .ck input:checked ~ .tx{text-decoration:line-through;opacity:.55}
 .ck input:focus-visible + .box{outline:3px dashed var(--ink);outline-offset:3px}
 
+ .pack-cat{
+  border:var(--line);
+  border-radius:18px;
+  margin-top:10px;
+  overflow:hidden;
+  background:var(--paper);
+}
+
+.pack-cat summary{
+  cursor:pointer;
+  list-style:none;
+  padding:8px 12px;
+  background:var(--yellow);
+  font-size:16px;
+}
+
+.pack-cat summary::-webkit-details-marker{
+  display:none;
+}
+
+.pack-cat summary::before{
+  content:"▸ ";
+}
+
+.pack-cat[open] summary::before{
+  content:"▾ ";
+}
+
+.pack-items{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:4px 10px;
+  padding:10px 12px 12px;
+}
+
+.pack-items li{
+  list-style:none;
+  min-width:0;
+}
+
+.pack-items label{
+  align-items:center;
+  font-size:14px;
+}
+
+@media(max-width:380px){
+  .pack-items{
+    grid-template-columns:1fr;
+  }
+} 
 
 .kv.small{font-size:14px;margin-top:4px}
 .kv .muted{opacity:.65}
@@ -319,9 +369,15 @@ footer svg{width:130px;margin:0 auto 6px}
 <!-- LISTS -->
 <section id="lists">
   <h2><svg><use href="#i-bag"/></svg>清單</h2>
-  <div class="card"><h3 class="sub-t">行李清單<span data-prog="pack">0/0</span></h3><ul class="ck" id="pack"></ul></div>
+  <div class="card">
+    <h3 class="sub-t">
+      行李清單
+      <span data-prog="pack">0/0</span>
+    </h3>
+    <div id="pack"></div>
+  </div>
 </section>
-
+  
 <footer>
  
 </footer>
@@ -792,22 +848,22 @@ Object.keys(LISTS).forEach(key => {
     map.get(cat).items.push({ i, label });
   });
 
-  host.innerHTML = groups.map(g => `
-    <div class="pk-box">
-      <div class="pk-title">${g.cat}（${g.items.length}）</div>
-      <ul class="pk-list">
-        ${g.items.map(({ i, label }) => `
-          <li>
-            <label>
-              <input type="checkbox" data-k="${key}" data-i="${i}" ${saved[i] ? 'checked' : ''}>
-              <span class="box"></span>
-              <span class="tx">${label}</span>
-            </label>
-          </li>
-        `).join('')}
-      </ul>
-    </div>
-  `).join('');
+host.innerHTML = groups.map((g, gi) => `
+  <details class="pack-cat" ${gi === 0 ? 'open' : ''}>
+    <summary>${g.cat}（${g.items.length}）</summary>
+    <ul class="pack-items">
+      ${g.items.map(({ i, label }) => `
+        <li>
+          <label>
+            <input type="checkbox" data-k="${key}" data-i="${i}" ${saved[i] ? 'checked' : ''}>
+            <span class="box"></span>
+            <span class="tx">${label}</span>
+          </label>
+        </li>
+      `).join('')}
+    </ul>
+  </details>
+`).join('');
 
   prog(key);
 });
